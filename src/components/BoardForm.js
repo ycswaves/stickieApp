@@ -24,7 +24,7 @@ class BoardForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const uuid = v1()
-    this.props.actions.createBoard({...this.state, uuid});
+    this.props.actions.createBoard({...this.state, uuid, userId: localStorage.getItem('userId')});
     browserHistory.push(`/board/${uuid}`);
   }
 

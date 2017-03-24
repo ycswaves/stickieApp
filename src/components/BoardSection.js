@@ -38,17 +38,22 @@ export default class BoardSection extends Component {
   }
 
   postIt() {
-    const { title, addStickie } = this.props;
+    const { title, addStickie, boardId } = this.props;
     const userId = localStorage.getItem('userId');
     // console.log(userId, title, this.state.msg);
-    addStickie(userId, title, this.state.msg);
+    addStickie(userId, title, this.state.msg, boardId);
     this.closeModal()
   }
 
   render() {
     const { stickies } = this.props;
     const layouts = {lg: stickies.map(stickied => stickied.layout)};
-
+    const colorMap = [
+      '#60C5FF',
+      '#FFD247',
+      '#FF8B74',
+      '#5BFFBD'
+    ];
     return (
       <div>
         <h3>
@@ -88,7 +93,7 @@ export default class BoardSection extends Component {
           cols={{lg: 24, md: 24, sm: 24, xs: 24, xxs: 24}}>
           {
             stickies.map( stickie =>
-              <Card key={stickie.stickieId} style={{margin: 0}}>
+              <Card key={stickie.stickieId} style={{margin: 0, backgroundColor: colorMap[this.props.colorIndex]}}>
                 <Card.Content>
                   <Card.Description>
                     {stickie.message}

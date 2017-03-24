@@ -1,15 +1,24 @@
-const socket = require('socket.io-client')('http://stickies-app-server.herokuapp.com/')
+const URL = window.location.href
+let socketUrl
+if (URL.match('heroku') !== null) {
+  socketUrl ='http://stickies-app-server.herokuapp.com'
+} else {
+  socketUrl = 'http://localhost:8080'
+}
+
+const socket = require('socket.io-client')(socketUrl)
 export default function() {
   return next => action => {
     switch (action.type) {
       case "ADD_STICKIE":
       case "ADD_SECTION":
-        console.log(action);
         socket.emit('sendMessage', action);
         break;
 
       case "CREATE_BOARD":
-        socket.emit('createRoom', action);
+        // if (store.getState().board.userId == userId) {
+          socket.emit('createRoom', action);
+        // }
         break;
 
       case "JOIN_ROOM":
@@ -24,7 +33,23 @@ export default function() {
 }
 
 export function socketListener(store) {
+  socket.on('broadcastMessageToRoom', action => {
+    console.log('broadcast=======> ', action);
+    if (action.payload.userId !== localStorage.getItem('userId')) {
+      store.dispatch(action);
+    }
+  })
+
   socket.on('sendMessage', action => {
-    store.dispatch(action);
+      store.dispatch(action);
+  })
+
+  socket.on('recreateBoard', action => {
+      store.dispatch(action);
+  })
+
+  socket.on('connectToRoom', stickiesArr => {
+    console.log(stickiesArr)
+    stickiesArr.forEach(addStickie => store.dispatch(addStickie));
   })
 }

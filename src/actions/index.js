@@ -14,7 +14,7 @@ export const addSection = (sectionTitle) => {
   };
 };
 
-export const addStickie = (userId, sectionTitle, message) => {
+export const addStickie = (userId, sectionTitle, message, boardId) => {
   const stickieId = v1();
   return {
     type: 'ADD_STICKIE',
@@ -23,6 +23,7 @@ export const addStickie = (userId, sectionTitle, message) => {
       userId,
       sectionTitle,
       message,
+      boardId,
       layout: {i: stickieId, x: 0, y: 0, w: 10, h: 1}
     }
   };

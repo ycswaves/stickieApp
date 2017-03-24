@@ -23,9 +23,9 @@ export class Board extends Component {
   }
 
   componentWillMount() {
-    console.log('sdfsdfsdf');
     if(!this.props.board.sections) {
       const boardId = this.props.location.pathname.split('/').pop();
+      console.log('running')
       console.log(boardId);
       this.props.actions.joinRoom(boardId)
     }
@@ -61,6 +61,8 @@ export class Board extends Component {
           <BoardSection
             addStickie={this.props.actions.addStickie}
             key={i}
+            colorIndex={i}
+            boardId={this.props.board.uuid}
             title={sections[key]}
             stickies={this.props.stickies.filter(stickie => stickie.sectionTitle === sections[key]) || []}
           />
