@@ -13,19 +13,15 @@ export default class BoardSection extends Component {
     };
   }
 
-  layoutChange(data) {
-    if (data.length < 1) return
-
-    console.log(data);
-    const {x, y, w, h} = data[0];
-    console.log(`x:${x}, y:${y}, w:${w}, h:${h}`);
+  layoutChange() {
+    // TODO:
   }
 
   closeModal(){
     this.setState({
       isEditing: false,
       msg: ''
-    })
+    });
   }
 
   startEdit() {
@@ -42,7 +38,7 @@ export default class BoardSection extends Component {
     const userId = localStorage.getItem('userId');
     // console.log(userId, title, this.state.msg);
     addStickie(userId, title, this.state.msg, boardId);
-    this.closeModal()
+    this.closeModal();
   }
 
   render() {
@@ -101,7 +97,7 @@ export default class BoardSection extends Component {
                 </Card.Content>
                 <Card.Content extra>
                   <a>
-                    <Icon name='heart' />
+                    <Icon name="heart" />
                     0
                   </a>
                 </Card.Content>
